@@ -1,0 +1,145 @@
+appId: "shop.shop_apotheke.com.shopapotheke.${env}"
+---
+
+- runScript: Pages/onboardingPage.js
+- runScript: Pages/loginPage.js
+- runScript: Pages/homePage.js
+- runScript: Pages/searchPage.js
+- runScript: Pages/productDetailPage.js
+
+
+- launchApp: 
+    # Clears all cached data
+    clearState: true
+    clearKeychain: true
+    
+    #waiting for initial screen
+- waitForAnimationToEnd:
+     timeout: 10000
+
+     # Country selection tests
+- assertVisible:
+    text: ${output.CountrySelectionPage.chooseCountryText}
+      
+- assertVisible:
+    id: ${output.CountrySelectionPage.countryIdGermany}
+- assertVisible:
+    id: ${output.CountrySelectionPage.countryIdAustria}
+- assertVisible: 
+    id: ${output.CountrySelectionPage.countryIdFrance}
+- assertVisible: 
+    id: ${output.CountrySelectionPage.countryIdItaly}
+- assertVisible:
+    id: ${output.CountrySelectionPage.countryIdBelgium}
+- assertVisible:
+    id: ${output.CountrySelectionPage.countryIdSwitzerland}
+- tapOn:
+    id: ${output.CountrySelectionPage.countryIdGermany}
+
+    #Language selection tests
+- assertVisible: 
+    text: ${output.LanguageSelectionPage.supportedLanguagesText}    
+
+- assertVisible: 
+    id: ${output.LanguageSelectionPage.languageIdGerman}
+- assertVisible:
+    id: ${output.LanguageSelectionPage.languageIdEnglish} 
+- assertVisible:
+    id: ${output.LanguageSelectionPage.languageIdFrench}
+- assertVisible:
+    id: ${output.LanguageSelectionPage.languageIdItalian}
+
+- tapOn:
+    id: ${output.LanguageSelectionPage.languageIdEnglish}  
+
+- assertVisible: 
+    text: ${output.UserConsentPage.consentPageHeader}
+- assertVisible:
+    text: ${output.UserConsentPage.agreeButton}
+- assertVisible:
+    text: ${output.UserConsentPage.settingsButton}
+
+- tapOn: 
+    text: ${output.UserConsentPage.agreeButton}
+
+    #Login test
+- assertVisible:
+    text: ${output.LoginSelectionPage.loginButton} 
+- assertVisible:
+    text: ${output.LoginSelectionPage.registerButton} 
+- assertVisible:
+    text: ${output.LoginSelectionPage.skipButton} 
+
+- tapOn:
+    text: ${output.LoginSelectionPage.loginButton} 
+
+- assertVisible: 
+    text: ${output.LoginPage.loginText}
+    index: ${output.LoginPage.loginTextIndex}
+
+- assertVisible: ${output.LoginPage.redcareLogo}
+- assertVisible:
+     id: ${output.LoginPage.emailInputField}     
+- tapOn:
+    id: ${output.LoginPage.emailInputField}
+- inputText: ${Username}
+
+- assertVisible:
+    id: ${output.LoginPage.passwordInputField}
+- tapOn:
+    id: ${output.LoginPage.passwordInputField}
+- inputText: ${Password}
+
+- assertVisible:
+    text: ${output.LoginPage.loginText}
+    index: ${output.LoginPage.loginTextIndex}
+- assertVisible:
+    text: ${output.LoginPage.requestLoginCodeButton}
+- assertVisible:
+    text: ${output.LoginPage.forgotPasswordButton}      
+- assertVisible:
+    text: ${output.LoginPage.registerButton}             
+        
+- tapOn:
+    text: ${output.LoginPage.loginText}
+    index: ${output.LoginPage.loginButtonIndex}
+
+- tapOn: ${output.LoginPage.skipButton}
+
+    #Home screen test
+- assertVisible:
+    id: ${output.HomePage.welcomeTitle}
+- assertVisible:
+    id: ${output.HomePage.searchBar}
+- assertVisible:
+    id: ${output.HomePage.productScannerIcon}
+- tapOn:
+    id: ${output.HomePage.searchBar}
+- inputText: ${SearchInput}  
+
+    #Searchscreen tests
+- tapOn:
+    id: ${output.SearchPage.searchResult}   
+    index: ${output.SearchPage.searchResultIndex}
+
+    #Productdetails and add to cart tests
+
+- tapOn:     
+    text: ${output.ProductDetailPage.addToCartButton}
+
+- assertNotVisible: 
+    text: ${output.ProductDetailPage.addToCartButton}
+
+- tapOn: 
+       id: ${output.ProductDetailPage.plusMinusButton}
+       index: ${output.ProductDetailPage.plusButtonIndex}
+
+- tapOn: 
+       id: ${output.ProductDetailPage.plusMinusButton}
+       index: ${output.ProductDetailPage.minusButtonIndex}      
+
+- assertNotVisible: 
+    text: ${output.ProductDetailPage.addToCartButton}
+
+
+ 
